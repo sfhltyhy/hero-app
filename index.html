@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3112/3112946.png">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3112/3112946.png">
-    <title>認字英雄傳 Pro v5.1 完整詞庫版</title>
+    <title>認字英雄傳</title>
     <style>
         :root { --primary: #3d5a80; --bg: #f8f9fa; --accent: #ee6c4d; --pending: #e2cfea; --completed: #dee2e6; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: '微軟正黑體', sans-serif; }
@@ -127,7 +127,7 @@
         };
 
         const TOTAL_WORDS = Object.values(db).reduce((acc, grade) => acc + Object.values(grade).reduce((gAcc, words) => gAcc + words.split(',').length, 0), 0);
-        let currentGrade = 'P1', currentGroup = '', activeWords = [], currentIndex = 0, isAutoPlaying = false, playInterval = null;
+        let currentGrade = 'P2', currentGroup = '', activeWords = [], currentIndex = 0, isAutoPlaying = false, playInterval = null;
         let masteredSet = new Set(JSON.parse(localStorage.getItem('HERO_DATA_PRO_V5_1') || "[]"));
 
         function init() { switchGrade('P1'); updateStats(); }
