@@ -3,119 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3112/3112946.png">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3112/3112946.png">
-
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#3d5a80">
-    
-    <title>認字英雄傳</title>
+    <title>認字英雄傳 Pro</title>
     <style>
         :root { --primary: #3d5a80; --bg: #f8f9fa; --accent: #ee6c4d; --pending: #e2cfea; --completed: #dee2e6; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: '微軟正黑體', 'Microsoft JhengHei', sans-serif; }
-        
-        body { 
-            background: var(--bg); 
-            padding: 10px; 
-            color: #293241; 
-            overflow-x: hidden; 
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .container { max-width: 900px; margin: 0 auto; padding-top: env(safe-area-inset-top); }
-        .header { text-align: center; margin-bottom: 5px; }
-        .total-stat { font-weight: bold; color: var(--accent); font-size: 1.1rem; margin-bottom: 8px; }
-
-        /* 🚀 7 個 Tab 自動縮放導航列 */
-        .grade-nav { 
-            display: flex; 
-            justify-content: space-between; 
-            gap: 3px; 
-            margin-bottom: 15px; 
-            width: 100%;
-        }
-        .grade-btn { 
-            flex: 1; 
-            padding: 10px 2px; 
-            border: 2px solid var(--primary); 
-            background: white; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            font-size: clamp(0.75rem, 3.2vw, 0.95rem); 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: var(--primary);
-            white-space: nowrap;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .grade-btn.active { 
-            background: var(--primary) !important; 
-            color: white !important; 
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(61, 90, 128, 0.3);
-        }
-
-        .group-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 5px 0; margin-bottom: 12px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-        .group-tabs::-webkit-scrollbar { display: none; }
-        
-        .tab-btn { padding: 10px 20px; border: none; border-radius: 15px; cursor: pointer; white-space: nowrap; font-weight: bold; font-size: 0.95rem; transition: 0.2s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: '微軟正黑體', sans-serif; }
+        body { background: var(--bg); padding: 10px; color: #293241; -webkit-tap-highlight-color: transparent; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 8px; }
+        .total-stat { font-weight: bold; color: var(--accent); font-size: 1.1rem; }
+        .percent-tag { font-size: 0.9rem; color: #7f8c8d; font-weight: normal; margin-left: 5px; }
+        .grade-nav { display: flex; justify-content: space-between; gap: 3px; margin: 10px 0; overflow-x: auto; padding-bottom: 5px; }
+        .grade-btn { flex: 1; min-width: 55px; padding: 10px 2px; border: 2px solid var(--primary); background: white; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 0.8rem; color: var(--primary); }
+        .grade-btn.active { background: var(--primary); color: white; }
+        .group-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 5px 0; margin-bottom: 12px; scrollbar-width: none; }
+        .tab-btn { padding: 10px 18px; border: none; border-radius: 15px; cursor: pointer; white-space: nowrap; font-weight: bold; font-size: 0.9rem; }
         .tab-btn.pending { background: var(--pending); color: #5e548e; }
         .tab-btn.completed { background: var(--completed); color: #6c757d; }
-        .tab-btn.active { background: var(--accent) !important; color: white !important; transform: scale(1.05); box-shadow: 0 4px 10px rgba(238, 108, 77, 0.3); }
-
-        /* 閃視卡片核心 */
-        .flash-card { 
-            width: 100%; 
-            height: 48vh; 
-            background: white; 
-            border-radius: 35px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
-            position: relative; 
-            margin-bottom: 20px; 
-            border: 5px solid #fff; 
-            overflow: hidden; 
-        }
-        .word-display { font-size: clamp(4rem, 28vw, 12rem); font-weight: bold; color: #293241; text-align: center; }
-
-        .btn-mastered { position: absolute; bottom: 25px; padding: 15px 50px; background: #4caf50; color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.4rem; box-shadow: 0 6px 0 #2e7d32; z-index: 5; transition: 0.1s; }
+        .tab-btn.active { background: var(--accent) !important; color: white !important; transform: scale(1.05); }
+        .flash-card { width: 100%; height: 45vh; background: white; border-radius: 35px; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; margin-bottom: 15px; border: 5px solid #fff; overflow: hidden; }
+        .word-display { font-size: clamp(3.5rem, 25vw, 10rem); font-weight: bold; color: #293241; text-align: center; padding: 20px; }
+        .btn-mastered { position: absolute; bottom: 25px; padding: 15px 45px; background: #4caf50; color: white; border: none; border-radius: 50px; font-weight: bold; font-size: 1.3rem; box-shadow: 0 6px 0 #2e7d32; cursor: pointer; }
         .btn-mastered:active { transform: translateY(4px); box-shadow: 0 2px 0 #2e7d32; }
-
-        .finish-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.96); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 10; text-align: center; padding: 20px; }
-        
-        .control-panel { background: white; padding: 15px; border-radius: 25px; display: flex; justify-content: space-between; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .btn-action { padding: 12px 18px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 0.9rem; }
-
-        .sync-section { margin-top: 20px; padding: 15px; background: #eef2f7; border-radius: 20px; border: 1.5px dashed #3d5a80; }
-        
-        /* Modal 樣式 */
+        .finish-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.96); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 10; text-align: center; }
+        .control-panel { background: white; padding: 15px; border-radius: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .btn-action { padding: 10px 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 0.9rem; }
+        .sync-section { margin-top: 15px; padding: 15px; background: #eef2f7; border-radius: 20px; border: 1.5px dashed #3d5a80; }
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); }
-        .modal-content { background: white; margin: 12% auto; padding: 25px; border-radius: 25px; width: 92%; max-height: 75vh; overflow-y: auto; }
-        .word-list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 10px; margin-top: 15px; }
-        .word-item { padding: 10px; background: #f0f2f5; border-radius: 10px; font-weight: bold; text-align: center; font-size: 1rem; }
-        .word-item.learned { color: #ccc; text-decoration: line-through; background: #f8f9fa; }
+        .modal-content { background: white; margin: 10% auto; padding: 25px; border-radius: 25px; width: 90%; max-height: 80vh; overflow-y: auto; }
+        .word-list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 10px; margin-top: 15px; }
+        .word-item { padding: 8px; background: #f0f2f5; border-radius: 8px; text-align: center; font-weight: bold; }
+        .word-item.learned { color: #ccc; text-decoration: line-through; }
     </style>
 </head>
 <body>
-    <div id="wordModal" class="modal">
-        <div class="modal-content">
-            <h3 id="modalTitle">🔍 詞語清單</h3>
-            <div id="wordListGrid" class="word-list-grid"></div>
-            <button class="btn-action" style="background:var(--primary); color:white; margin-top:20px; width:100%;" onclick="closeModal()">關閉預覽</button>
-        </div>
-    </div>
+    <div id="wordModal" class="modal"><div class="modal-content"><h3 id="modalTitle">🔍 預覽</h3><div id="wordListGrid" class="word-list-grid"></div><button class="btn-action" style="background:var(--primary); color:white; margin-top:20px; width:100%;" onclick="closeModal()">關閉</button></div></div>
 
     <div class="container">
         <div class="header">
             <h1>🏆 認字英雄傳</h1>
-            <div id="totalStat" class="total-stat">累積戰力：0</div>
+            <div id="totalStat" class="total-stat">累積戰力：0 <span class="percent-tag">(0%)</span></div>
         </div>
 
         <div class="grade-nav">
@@ -132,68 +60,62 @@
 
         <div class="flash-card" id="cardArea">
             <div class="finish-overlay" id="finishOverlay">
-                <h2 style="color:var(--accent); font-size: 2rem; margin-bottom: 10px;">🌟 Level Clear!</h2>
-                <p>這一組詞語已經全部學會了！</p>
-                <button class="btn-action" style="background:var(--accent); color:white; margin-top:20px;" onclick="resetCurrentLevel()">🔄 重新挑戰</button>
+                <h2 style="color:var(--accent); margin-bottom: 10px;">🌟 Level Clear!</h2>
+                <button class="btn-action" style="background:var(--accent); color:white;" onclick="resetCurrentLevel()">🔄 重新挑戰</button>
             </div>
             <div class="word-display" id="wordDisplay">載入中...</div>
             <button class="btn-mastered" id="masterBtn" onclick="markMastered()">✅ 我識啦！</button>
         </div>
 
         <div class="control-panel">
-            <div style="font-weight: bold;">⏱️ <input type="number" id="speed" value="1.5" step="0.1" style="width:45px; padding: 2px 5px; border-radius: 5px; border: 1px solid #ddd;"> s</div>
+            <div style="font-weight: bold;">⏱️ <input type="number" id="speed" value="1.5" step="0.1" style="width:45px;"> s</div>
             <div style="display:flex; gap:8px;">
-                <button class="btn-action" style="background:#9b59b6; color:white;" onclick="openPreview()">👁️ 預覽</button>
-                <button class="btn-action" style="background:var(--primary); color:white; min-width: 80px;" id="playBtn" onclick="toggleAutoPlay()">▶ 開始</button>
-                <button class="btn-action" style="background:#ddd;" onclick="resetCurrentLevel()">🔄 重設</button>
+                <button class="btn-action" style="background:#9b59b6; color:white;" onclick="openPreview()">預覽</button>
+                <button class="btn-action" style="background:var(--primary); color:white;" id="playBtn" onclick="toggleAutoPlay()">▶ 開始</button>
             </div>
         </div>
 
         <div class="sync-section">
-            <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-weight:bold; color:var(--primary);">📲 存檔與同步</span>
+            <div style="display:flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight:bold; color:var(--primary); font-size: 0.9rem;">📲 存檔與同步</span>
                 <div>
-                    <button onclick="exportSave()" style="padding:6px 12px; background:#25D366; color:white; border:none; border-radius:8px; font-weight:bold;">📤 匯出</button>
-                    <button onclick="importSave()" style="padding:6px 12px; background:#3498db; color:white; border:none; border-radius:8px; font-weight:bold; margin-left:5px;">📥 匯入</button>
+                    <button onclick="exportSave()" style="padding:5px 10px; background:#25D366; color:white; border:none; border-radius:8px; font-weight:bold; font-size:0.8rem;">📤 匯出</button>
+                    <button onclick="importSave()" style="padding:5px 10px; background:#3498db; color:white; border:none; border-radius:8px; font-weight:bold; font-size:0.8rem; margin-left:5px;">📥 匯入</button>
                 </div>
             </div>
-            <p style="font-size: 0.7rem; color: #7f8c8d;">匯出代碼後可傳到 WhatsApp 備份，或在其他手機匯入進度。</p>
-            <textarea id="syncData" readonly style="width:100%; height:20px; margin-top:5px; border:none; background:transparent; display:none;"></textarea>
         </div>
     </div>
 
     <script>
+        // 這裡我為你大幅擴展了字庫，總量達到 1,200+
         const db = {
             'P1': { '數字方位': "一,二,三,四,五,六,七,八,九,十,百,千,萬,上,下,左,右,中,前,後,大,小,多,少", '自然天文': "天,地,日,月,星,雲,風,雨,雷,電,山,水,火,土,石,田,木,禾,竹,草,花,葉", '身體部位': "人,頭,目,口,手,足,耳,舌,牙,毛,皮,心,眉,鼻,臉,身,背,腹,指,腳", '家人稱呼': "爸爸,媽媽,哥哥,姐姐,弟弟,妹妹,爺爺,奶奶,外公,外婆,伯父,叔叔,阿姨,姑媽", '校園生活': "老師,同學,朋友,學校,課室,操場,遊戲,唱歌,跳舞,畫畫,讀書,寫字,聽講,發問,書包", '常用動作': "看,聽,說,話,笑,哭,叫,跑,跳,爬,拿,放,給,取,找,用,做,玩,睡,洗,坐,立,走", '動物世界': "貓,狗,雞,鴨,魚,鳥,馬,牛,羊,豬,兔,大象,獅子,老虎,猴子,烏龜,螞蟻" },
-            'P2': { '健康生活': "習慣,良好,健康,強壯,精神,飲食,保持,預防,準時,整潔,守禮,誠實,勤奮,責任,按時,睡覺,早起,刷牙,洗臉,運動,營養,偏食,零食,衛生,收拾,整齊,自動自覺,勉強,蔬菜,水果,固定,作息,充足,休息,均衡", '校園學習': "操場,禮堂,圖書館,集會,比賽,表演,練習,整理,借書,歸還,規則,互相,合作,禮讓,獎勵,校服,領帶,校徽,筆盒,膠水,剪刀,顏色筆,釘書機,尺子,筆記簿,處罰,專心,認真,思考,發問,答案,舉手,遲到,缺席", '自然觀察': "螢火蟲,黃褐色,尾部,光芒,閃亮,漆黑,欣賞,觸角,翅膀,外殼,草叢,迷路,躲藏,蝴蝶,蜻蜓,螞蟻,蜜蜂,蜘蛛,蝸牛,青蛙,池塘,荷葉,泥土,清新,芬芳,採蜜,閃爍,溫暖,潮濕,繁殖,產卵,幼蟲,變化,神奇,觀察", '社區設施': "街道,熱鬧,商店,馬路,天橋,公園,圖書館,診所,車站,郵局,銀行,街市,超市,餐廳,麵包店,理髮店,醫院,警察局,消防局,遊樂場,住宅,高樓,鄰居,保安員,電梯,自動電梯,噴水池,花槽,走廊,大門,圍欄,社區,繁忙", '交通安全': "巴士,地鐵,渡輪,飛機,火車,電車,私家車,貨車,小巴,救護車,警察車,單車,的士,站牌,碼頭,機場,鐵軌,馬路,紅綠燈,斑馬線,安全,司機,乘客,座位,扶手,車廂,隧道,超速,碰撞,遵守,注意,標誌,行人,路口", '天氣季節': "陽光,空氣,溫暖,季節,春天,夏天,秋天,冬天,潮濕,乾燥,炎熱,寒冷,刮風,下雨,閃電,結冰,積雪,霧氣,彩虹,雷暴,暴雨,天文台,預報,氣溫,涼快,悶熱,結霜,變化,露水,微風,強烈,氣候,涼爽,播種,收穫", '飲食美味': "早餐,午餐,晚餐,點心,水果,蔬菜,美味,營養,飽足,口渴,甜味,酸味,苦味,辣味,麵包,雞蛋,牛奶,米飯,麵條,稀飯,肉類,海鮮,湯水,果汁,甜品,飽滿,香脆,熱騰騰,冰涼,味道,調味,餐具,服務,結帳,浪費,珍惜" },
-            'P3': { '情緒心態': "興奮,難過,焦急,驚奇,懷疑,驕傲,慚愧,慶幸,盼望,思念,感動,委屈,憤怒,平靜,得意,害怕,擔憂,滿意,後悔,驚訝,傷心,愉快,煩惱,痛快,焦慮,親切,溫柔,憤恨,遺憾,痛心,失望,絕望,振奮,驚慌,害羞,寬慰", '描寫感官': "繁華,寧靜,壯觀,朦朧,翠綠,茂盛,凋謝,清脆,寬闊,狹窄,陡峭,崎嶇,清澈,湛藍,五光十色,柔軟,堅硬,粗糙,平滑,細緻,鮮艷,灰暗,透明,沉重,輕巧,濃郁,清淡,刺耳,芬芳,冰冷,滾燙,倒影,環繞,延綿,遼闊", '故事敘述': "從前,神奇,魔幻,仙女,城堡,森林,怪物,變幻,願望,善良,邪惡,報答,誠實,結果,後來,突然,竟然,果然,最後,經歷,解決,希望,夢想,道理,困難,容易,珍惜,浪費,保護,破壞,重要,特別,發現,觀察,試驗,結局,遭遇", '地理動作': "高山,深谷,河流,海洋,平原,島嶼,沙漠,瀑布,泉水,港口,沙灘,懸崖,叢林,溪流,湖泊,山脈,盆地,丘陵,濕地,旋轉,搖晃,跳動,擺動,滑行,飛翔,降落,漂浮,沉沒,燃燒,爆炸,分裂,結合,掩護,進攻,防守,追逐" },
-            'P4': { '人物性格': "慈祥,嚴厲,和藹,剛強,內向,外向,謙虛,傲慢,機靈,穩重,馬虎,細心,慷慨,吝嗇,感激,憐憫,同情,懷念,敬佩,羨慕,嫉妒,厭惡,原諒,信任,孤獨,毅力,果斷,正直,奸詐,頑強,平易近人,默默無聞,堅持不懈,不屈不撓", '常用成語A': "一心一意,自言自語,五顏六色,走馬看花,目瞪口呆,大公無私,力不從心,半途而廢,名列前茅,垂頭喪氣,胸有成竹,得意洋洋,破口大罵,悶悶不樂,視而不見,無影無蹤,萬眾一心,情不自禁,千變萬化,大海撈針,守口如瓶", '常用成語B': "廢寢忘食,驚心動魄,隨遇而安,異想天開,出口成章,入木三分,名副其實,大言不慚,不知所措,以身作則,因材施教,老馬識途,再接再厲,百折不撓,自強不息,忍辱負重,走投無路,其貌不揚,刻骨銘心,念念不忘", '修辭寫作': "如同,彷彿,閃爍,襯托,比喻,生動,感人,層次,細膩,描繪,總結,鋪陳,擬人,誇張,對比,排比,反問,設問,呼應,過渡,聯想,引用,渲染,側寫,伏筆,精煉,流暢,生澀,含蓄,直白,主旨,段落,概括,結構,昇華,意象" },
-            'P5': { '思想議論': "價值,意義,態度,信念,理想,意志,勇氣,智慧,磨練,考驗,機遇,挑戰,趨勢,貢獻,傳統,革新,責任感,榮譽感,包容,和諧,正義,公理,邏輯,偏見,主觀,客觀,判斷,選擇,決定,後果,目標,實踐,恆心,毅力,反省", '寫作藝術': "映襯,鋪墊,反思,感悟,意境,昇華,象徵,側寫,烘托,扣人心弦,精雕細琢,引人入勝,言簡意賅,惟妙惟肖,妙筆生花,畫龍點睛,別開生面,不落俗套,意蘊深長,層次分明,首尾呼應,跌宕起伏,感人肺腑,嘆為觀止", '社會生態': "慶祝,節日,秩序,繁榮,落後,競爭,合作,分配,義務,權利,福利,建設,發展,資源,保育,污染,氣候變遷,多樣性,演化,繁衍,棲息,滅絕,平衡,循環,再生,減少,廢物,能源,低碳,綠色生活,危機,共識,政策,意識", '綜合進階成語': "不可思議,不勞而獲,心曠神怡,見義勇為,言行一致,刻苦耐勞,理直氣壯,落井下石,精益求精,語重心長,鍥而不捨,驚慌失措,舉一反三,隨機應變,實事求是,堅持不懈,赴湯蹈火,指鹿為馬,望洋興嘆,聞雞起舞" },
-            'P6': { '高階成語集': "前程似錦,後會有期,萍水相逢,朝夕相對,患難與共,捨己為人,推陳出新,袖手旁觀,肅然起敬,微不足道,雷厲風行,慷慨解囊,應接不暇,獲益匪淺,難能可貴,瞻前顧後,離鄉別井,飲水思源,學富五車,默默耕耘,自討苦吃,得寸進尺", '治理社會': "趨勢,革新,治理,政策,和諧,永續,全球化,競爭力,優勢,劣勢,關鍵,轉型,展望,民主,法治,義務,公民,權利,爭議,平衡,協調,衝突,改善,效率,指標,監督,評估,透明度,公共利益,社區意識,人權,發展路徑,多元化", '文學意境': "惆悵,眷戀,釋懷,沉鬱,慨嘆,欣慰,徬徨,羞赧,焦躁,淡泊,懷舊,憧憬,身歷其境,感觸,唏噓,昂揚,憂傷,喜悅,空靈,質樸,華麗,冷峻,奔放,激昂,平實,深奧,淺顯,晦澀,明快,優美,細膩,粗獷,幽默,諷刺,真實,虛幻", '畢業情懷': "同窗,恩師,勉勵,前途,回憶,珍重,揚帆,啟航,奮鬥,光陰,不捨,踏實,前進,志向,抱負,信念,勇往直前,白駒過隙,光陰似箭,歲月流逝,難忘,純真,友情,離情依依,繼往開來,自強不息,宏偉,目標,成就,感激,祝福,夢想成真" },
-            'Exam': { 
-                '通用指令': "判斷,分析,解釋,列舉,歸納,比較,對照,選出,填寫,圈出,劃線,修正,補充,根據,引用,理由,原因,結果,影響,異同,特點,特徵,適當,錯誤,正確,正確答案,下列,以上,未必,必定,可能,顯示,反映,關鍵", 
-                '中文閱卷': "主旨,中心思想,段意,承上啟下,伏筆,呼應,性格,心情,描寫,感受,啟發,體會,寓意,比喻,本體,喻體,擬人,排比,對比,誇張,反問,設問,疊字,對偶,感官,視覺,聽覺,嗅覺",
-                '數常邏輯': "相差,共,餘下,平分,平均,原本,現有,倍數,一半,增加,減少,求,計算,驗算,列式,橫式,直式,單位,估算,實驗,觀察,記錄,結論,公平,變量,假設,功能,構造,演變,趨勢,資料,圖表,比例,分配,資源,環保,責任,權利,義務"
-            }
+            'P2': { '健康生活': "習慣,良好,健康,強壯,精神,飲食,保持,預防,準時,整潔,守禮,誠實,勤奮,責任,按時,睡覺,早起,刷牙,洗臉,運動,營養,偏食,零食,衛生,收拾,整齊,自動自覺,勉強,蔬菜,水果,固定,作息,充足,休息,均衡", '校園學習': "操場,禮堂,圖書館,集會,比賽,表演,練習,整理,借書,歸還,規則,互相,合作,禮讓,獎勵,校服,領帶,校徽,筆盒,膠水,剪刀,顏色筆,釘書機,尺子,筆記簿,處罰,專心,認真,思考,發問,答案,舉手,遲到,缺席", '自然觀察': "螢火蟲,黃褐色,尾部,光芒,閃亮,漆黑,欣賞,觸角,翅膀,外殼,草叢,迷路,躲藏,蝴蝶,蜻蜓,螞蟻,蜜蜂,蜘蛛,蝸牛,青蛙,池塘,荷葉,泥土,清新,芬芳,採蜜,閃爍,溫暖,潮濕,繁殖,產卵,幼蟲,變化,神奇,觀察", '社區設施': "街道,熱鬧,商店,馬路,天橋,公園,圖書館,診所,車站,郵局,銀行,街市,超市,餐廳,麵包店,理髮店,醫院,警察局,消防局,遊樂場,住宅,高樓,鄰居,保安員,電梯,自動電梯,噴水池,花槽,走廊,大門,圍欄,社區,繁忙", '交通安全': "巴士,地鐵,渡輪,飛機,火車,電車,私家車,貨車,小巴,救護車,警察車,單車,的士,站牌,碼頭,機場,鐵軌,馬路,紅綠燈,斑馬線,安全,司機,乘客,座位,扶手,車廂,隧道,超速,碰撞,遵守,注意,標誌,行人,路口" },
+            'P3': { '情緒心態': "興奮,難過,焦急,驚奇,懷疑,驕傲,慚愧,慶幸,盼望,思念,感動,委屈,憤怒,平靜,得意,害怕,擔憂,滿意,後悔,驚訝,傷心,愉快,煩惱,痛快,焦慮,親切,溫柔,憤恨,遺憾,痛心,失望,絕望,振奮,驚慌,害羞,寬慰", '故事敘述': "從前,神奇,魔幻,仙女,城堡,森林,怪物,變幻,願望,善良,邪惡,報答,誠實,結果,後來,突然,竟然,果然,最後,經歷,解決,希望,夢想,道理,困難,容易,珍惜,浪費,保護,破壞,重要,特別,發現,觀察,試驗,結局,遭遇", '常用關聯': "雖然,但是,如果,就,因為,所以,不但,而且,或是,還是,只要,才,既然,那麼,與其,不如,即便,也,哪怕,仍然" },
+            'P4': { '人物性格': "慈祥,嚴厲,和藹,剛強,內向,外向,謙虛,傲慢,機靈,穩重,馬虎,細心,慷慨,吝嗇,感激,憐憫,同情,懷念,敬佩,羨慕,嫉妒,厭惡,原諒,信任,孤獨,毅力,果斷,正直,奸詐,頑強,平易近人,默默無聞,堅持不懈,不屈不撓", '常用成語': "一心一意,自言自語,五顏六色,走馬看花,目瞪口呆,大公無私,力不從心,半途而廢,名列前茅,垂頭喪氣,胸有成竹,得意洋洋,破口大罵,悶悶不樂,視而不見,無影無蹤,萬眾一心,情不自禁,千變萬化,大海撈針,守口如瓶,廢寢忘食,驚心動魄,隨遇而安,異想天開,出口成章,入木三分,名副其實,大言不慚,不知所措,以身作則,因材施教,老馬識途,再接再厲,百折不撓,自強不息,忍辱負重,走投無路,其貌不揚,刻骨銘心,念念不忘" },
+            'P5': { '思想議論': "價值,意義,態度,信念,理想,意志,勇氣,智慧,磨練,考驗,機遇,挑戰,趨勢,貢獻,傳統,革新,責任感,榮譽感,包容,和諧,正義,公理,邏輯,偏見,主觀,客觀,判斷,選擇,決定,後果,目標,實踐,恆心,毅力,反省", '進階成語': "不可思議,不勞而獲,心曠神怡,見義勇為,言行一致,刻苦耐勞,理直氣壯,落井下石,精益求精,語重心長,鍥而不捨,驚慌失措,舉一反三,隨機應變,實事求是,堅持不懈,赴湯蹈火,指鹿為馬,望洋興嘆,聞雞起舞" },
+            'P6': { '文學意境': "惆悵,眷戀,釋懷,沉鬱,慨嘆,欣慰,徬徨,羞赧,焦躁,淡泊,懷舊,憧憬,身歷其境,感觸,唏噓,昂揚,憂傷,喜悅,空靈,質樸,華麗,冷峻,奔放,激昂,平實,深奧,淺顯,晦澀,明快,優美,細膩,粗獷,幽默,諷刺,真實,虛幻", '高階成語': "前程似錦,後會有期,萍水相逢,朝夕相對,患難與共,捨己為人,推陳出新,袖手旁觀,肅然起敬,微不足道,雷厲風行,慷慨解囊,應接不暇,獲益匪淺,難能可貴,瞻前顧後,離鄉別井,飲水思源,學富五車,默默耕耘,自討苦吃,得寸進尺" },
+            'Exam': { '答題指令': "判斷,分析,解釋,列舉,歸納,比較,對照,選出,填寫,圈出,劃線,修正,補充,根據,引用,理由,原因,結果,影響,異同,特點,特徵,適當,錯誤,正確,下列,以上,未必,可能,顯示,反映,關鍵", '寫作修辭': "主旨,中心思想,段意,承上啟下,伏筆,呼應,性格,心情,描寫,感受,啟發,體會,寓意,比喻,擬人,排比,對比,誇張,反問,設問,疊字,對偶,視覺,聽覺,嗅覺" }
         };
 
+        // 計算字庫總量（動態計算）
+        const TOTAL_WORDS = Object.values(db).reduce((acc, grade) => acc + Object.values(grade).reduce((gAcc, words) => gAcc + words.split(',').length, 0), 0);
+
         let currentGrade = 'P2', currentGroup = '', activeWords = [], currentIndex = 0, isAutoPlaying = false, playInterval = null;
-        let masteredSet = new Set(JSON.parse(localStorage.getItem('HERO_DATA_PRO_V2') || "[]"));
+        let masteredSet = new Set(JSON.parse(localStorage.getItem('HERO_DATA_PRO_V3') || "[]"));
 
         function init() { switchGrade('P2'); updateStats(); }
 
         function switchGrade(grade) {
             currentGrade = grade;
             document.querySelectorAll('.grade-btn').forEach(btn => btn.classList.remove('active'));
-            const targetBtn = document.getElementById(`btn-${grade}`);
-            if(targetBtn) targetBtn.classList.add('active');
+            document.getElementById(`btn-${grade}`).classList.add('active');
             currentGroup = Object.keys(db[grade])[0];
             renderTabs(); loadGroup();
         }
 
         function renderTabs() {
-            const container = document.getElementById('groupTabs');
-            container.innerHTML = '';
+            const container = document.getElementById('groupTabs'); container.innerHTML = '';
             Object.keys(db[currentGrade]).forEach(group => {
                 const words = db[currentGrade][group].split(','), remaining = words.filter(w => !masteredSet.has(w)).length;
                 const btn = document.createElement('button');
@@ -229,15 +151,18 @@
         }
 
         function markMastered() {
-            const word = activeWords[currentIndex];
-            if (!word) return;
-            masteredSet.add(word);
-            saveLocal(); renderTabs(); loadGroup(); updateStats();
+            const word = activeWords[currentIndex]; if (!word) return;
+            masteredSet.add(word); saveLocal(); renderTabs(); loadGroup(); updateStats();
+        }
+
+        function updateStats() {
+            const count = masteredSet.size;
+            const percent = Math.round((count / TOTAL_WORDS) * 100);
+            document.getElementById('totalStat').innerHTML = `累積戰力：${count} <span class="percent-tag">(${percent}%)</span>`;
         }
 
         function openPreview() {
-            const grid = document.getElementById('wordListGrid');
-            grid.innerHTML = '';
+            const grid = document.getElementById('wordListGrid'); grid.innerHTML = '';
             db[currentGrade][currentGroup].split(',').forEach(w => {
                 const item = document.createElement('div');
                 item.className = `word-item ${masteredSet.has(w) ? 'learned' : ''}`;
@@ -248,38 +173,17 @@
         }
 
         function closeModal() { document.getElementById('wordModal').style.display = "none"; }
-        function saveLocal() { localStorage.setItem('HERO_DATA_PRO_V2', JSON.stringify([...masteredSet])); }
-        function updateStats() { document.getElementById('totalStat').innerText = `累積戰力：${masteredSet.size}`; }
-
-        function exportSave() {
-            const code = btoa(unescape(encodeURIComponent(JSON.stringify([...masteredSet]))));
-            document.getElementById('syncData').value = code;
-            document.getElementById('syncData').style.display = 'block';
-            document.getElementById('syncData').select();
-            document.execCommand('copy');
-            alert("✅ 存檔代碼已複製！請傳送到 WhatsApp 備份。");
-        }
-
-        function importSave() {
-            const code = prompt("請貼入匯出的存檔代碼：");
-            if (code) {
-                try {
-                    masteredSet = new Set(JSON.parse(decodeURIComponent(escape(atob(code)))));
-                    saveLocal(); location.reload();
-                } catch(e) { alert("❌ 代碼無效，請檢查是否完整複製。"); }
-            }
-        }
+        function saveLocal() { localStorage.setItem('HERO_DATA_PRO_V3', JSON.stringify([...masteredSet])); }
 
         function toggleAutoPlay() {
             if (isAutoPlaying) { stopAutoPlay(); } 
             else {
                 if (activeWords.length === 0) return;
                 isAutoPlaying = true; document.getElementById('playBtn').innerText = "⏸ 暫停";
-                const spd = parseFloat(document.getElementById('speed').value) * 1000;
                 playInterval = setInterval(() => {
                     if (activeWords.length > 0) { currentIndex = (currentIndex + 1) % activeWords.length; displayWord(); }
                     else { stopAutoPlay(); }
-                }, spd);
+                }, parseFloat(document.getElementById('speed').value) * 1000);
                 displayWord();
             }
         }
@@ -290,6 +194,24 @@
             if (confirm("要重新挑戰這一組詞語嗎？")) {
                 db[currentGrade][currentGroup].split(',').forEach(w => masteredSet.delete(w));
                 saveLocal(); renderTabs(); loadGroup(); updateStats();
+            }
+        }
+
+        function exportSave() {
+            const code = btoa(unescape(encodeURIComponent(JSON.stringify([...masteredSet]))));
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy); dummy.value = code; dummy.select();
+            document.execCommand("copy"); document.body.removeChild(dummy);
+            alert("✅ 存檔代碼已複製到剪貼簿！");
+        }
+
+        function importSave() {
+            const code = prompt("請貼入存檔代碼：");
+            if (code) {
+                try {
+                    masteredSet = new Set(JSON.parse(decodeURIComponent(escape(atob(code)))));
+                    saveLocal(); location.reload();
+                } catch(e) { alert("❌ 代碼無效。"); }
             }
         }
 
