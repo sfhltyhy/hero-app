@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3112/3112946.png">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3112/3112946.png">
-    <title>認字英雄傳 Pro v5.0</title>
+    <title>認字英雄傳 Pro v5.1 完整詞庫版</title>
     <style>
         :root { --primary: #3d5a80; --bg: #f8f9fa; --accent: #ee6c4d; --pending: #e2cfea; --completed: #dee2e6; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: '微軟正黑體', sans-serif; }
@@ -14,7 +14,7 @@
         .header { text-align: center; margin-bottom: 8px; }
         .total-stat { font-weight: bold; color: var(--accent); font-size: 1.1rem; }
         
-        /* 導覽列：七個按鈕平均分配寬度 */
+        /* 導覽列：自動平均分配寬度 */
         .grade-nav { display: flex; width: 100%; gap: 3px; margin: 10px 0; }
         .grade-btn { flex: 1; padding: 12px 0; border: 2px solid var(--primary); background: white; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.75rem; color: var(--primary); text-align: center; }
         .grade-btn.active { background: var(--primary); color: white; }
@@ -25,16 +25,15 @@
         .tab-btn { padding: 10px 18px; border: none; border-radius: 15px; cursor: pointer; white-space: nowrap; font-weight: bold; font-size: 0.9rem; }
         .tab-btn.pending { background: var(--pending); color: #5e548e; }
         .tab-btn.completed { background: var(--completed); color: #6c757d; }
-        .tab-btn.active { background: var(--accent) !important; color: white !important; transform: scale(1.05); }
+        .tab-btn.active { background: var(--accent) !important; color: white !important; }
 
         .flash-card { width: 100%; height: 45vh; background: white; border-radius: 35px; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; margin-bottom: 15px; border: 5px solid #fff; overflow: hidden; }
         .word-display { font-size: clamp(3rem, 20vw, 9rem); font-weight: bold; color: #293241; text-align: center; padding: 15px; }
         .btn-mastered { position: absolute; bottom: 25px; padding: 15px 45px; background: #4caf50; color: white; border: none; border-radius: 50px; font-weight: bold; font-size: 1.3rem; box-shadow: 0 6px 0 #2e7d32; cursor: pointer; }
         
         .finish-overlay { position: absolute; width: 100%; height: 100%; background: rgba(255,255,255,0.96); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 10; border-radius: 35px; }
-        
         .control-panel { background: white; padding: 15px; border-radius: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .btn-action { padding: 10px 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 0.9rem; }
+        .btn-action { padding: 10px 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
         .modal-content { background: white; margin: 10% auto; padding: 25px; border-radius: 25px; width: 90%; max-height: 80vh; overflow-y: auto; }
@@ -93,18 +92,43 @@
 
     <script>
         const db = {
-            'P1': { '數字方位': "一,二,三,四,五,六,七,八,九,十,百,千,萬,上,下,左,右,中,前,後,大,小,多,少", '自然天文': "天,地,日,月,星,雲,風,雨,雷,電,山,水,火,土,石,田,木,禾,竹,草,花,葉", '身體部位': "人,頭,目,口,手,足,耳,舌,牙,毛,皮,心,眉,鼻,臉,身,背,腹,指,腳" },
-            'P2': { '健康生活': "習慣,良好,健康,強壯,精神,飲食,保持,預防,準時,整潔,守禮,誠實,勤奮,責任,按時,睡覺,早起,刷牙,洗臉,運動,營養,偏食,零食,衛生,收拾,整齊,自動自覺,勉強,蔬菜,水果", '校園學習': "操場,禮堂,圖書館,集會,比賽,表演,練習,整理,借書,歸還,規則,互相,合作,禮讓,獎勵,校服,領帶,校徽,筆盒,膠水,剪刀,顏色筆,釘書機,尺子,筆記簿,處罰,專心,認真,思考" },
-            'P3': { '情緒心態': "興奮,難過,焦急,驚奇,懷疑,驕傲,慚愧,慶幸,盼望,思念,感動,委屈,憤怒,平靜,得意,害怕,擔憂,滿意,後悔,驚訝,傷心,愉快,煩惱,痛快,焦慮,親切,溫柔,憤恨,遺憾,痛心" },
-            'P4': { '人物性格': "慈祥,嚴厲,和藹,剛強,內向,外向,謙虛,傲慢,機靈,穩重,馬虎,細心,慷慨,吝嗇,感激,憐憫,同情,懷念,敬佩,羨慕,嫉妒,厭惡,原諒,信任,孤獨,毅力,果斷,正直,奸詐,頑強", '進階用詞': "推敲,琢磨,渲染,襯托,鋪墊,點綴,醞釀,凝聚,波折,細膩,粗獷,幽默,諷刺,真實,虛幻,憧憬,釋懷,感觸,唏噓,昂揚" },
-            'P5': { '思想議論': "價值,意義,態度,信念,理想,意志,勇氣,智慧,磨練,考驗,機遇,挑戰,趨勢,貢獻,傳統,革新,責任感,榮譽感,包容,和諧,正義,公理,邏輯,偏見,主觀,客觀,判斷,選擇,決定,實踐", '修辭手法': "比喻,擬人,排比,對比,誇張,反問,設問,疊字,對偶,借代,反語,引用,聯想,想像,象徵,反襯" },
-            'P6': { '文學意境': "惆悵,眷戀,釋懷,沉鬱,慨嘆,欣慰,徬徨,羞赧,焦躁,淡泊,懷舊,身歷其境,感人至深,妙趣橫生,引人入勝,耐人尋味,扣人心弦,扣人心扉,如願以償,獲益匪淺", '說明方法': "舉例子,打比方,列數字,下定義,分類別,作比較,摹狀貌,引資料,作詮釋" },
-            'Exam': { '答題指令': "判斷,分析,解釋,列舉,歸納,比較,對照,選出,填寫,圈出,劃線,修正,補充,根據,引用,理由,原因,結果,影響,異同,特點,特徵,適當,錯誤,正確", '寫作組件': "主旨,中心思想,段意,承上啟下,伏筆,呼應,性格,心情,描寫,感受,啟發,體會,寓意,開門見山,首尾呼應,卒章顯志,寓情於景" }
+            'P1': { 
+                '數字方位': "一,二,三,四,五,六,七,八,九,十,百,千,萬,上,下,左,右,中,前,後,大,小,多,少", 
+                '自然天文': "天,地,日,月,星,雲,風,雨,雷,電,山,水,火,土,石,田,木,禾,竹,草,花,葉",
+                '身體部位': "人,頭,目,口,手,足,耳,舌,牙,毛,皮,心,眉,鼻,臉,身,背,腹,指,腳",
+                '常用動作': "看,聽,說,話,笑,哭,叫,跑,跳,爬,拿,放,給,取,找,用,做,玩,睡,洗,坐,立,走"
+            },
+            'P2': { 
+                '健康生活': "習慣,良好,健康,強壯,精神,飲食,保持,預防,準時,整潔,守禮,誠實,勤奮,責任,按時,睡覺,早起,刷牙,洗臉,運動,營養,偏食,零食,衛生,收拾,整齊,自動自覺,勉強,蔬菜,水果,固定,作息,充足,休息,均衡",
+                '校園學習': "操場,禮堂,圖書館,集會,比賽,表演,練習,整理,借書,歸還,規則,互相,合作,禮讓,獎勵,校服,領帶,校徽,筆盒,膠水,剪刀,顏色筆,釘書機,尺子,筆記簿,處罰,專心,認真,思考,發問,答案,舉手,遲到,缺席"
+            },
+            'P3': { 
+                '情緒心態': "興奮,難過,焦急,驚奇,懷疑,驕傲,慚愧,慶幸,盼望,思念,感動,委屈,憤怒,平靜,得意,害怕,擔憂,滿意,後悔,驚訝,傷心,愉快,煩惱,痛快,焦慮,親切,溫柔,憤恨,遺憾,痛心,失望,絕望,振奮,驚慌,害羞,寬慰"
+            },
+            'P4': { 
+                '人物性格': "慈祥,嚴厲,和藹,剛強,內向,外向,謙虛,傲慢,機靈,穩重,馬虎,細心,慷慨,吝嗇,感激,憐憫,同情,懷念,敬佩,羨慕,嫉妒,厭惡,原諒,信任,孤獨,毅力,果斷,正直,奸詐,頑強",
+                '寫景描寫': "幽靜,熱鬧,繁華,偏僻,寬闊,狹窄,崎嶇,平坦,明媚,陰暗,朦朧,清澈,污濁,茂密,枯萎,壯觀,秀麗,險峻,瑰麗,荒涼",
+                '進階用詞': "推敲,琢磨,渲染,襯托,鋪墊,點綴,醞釀,凝聚,波折,細膩,粗獷,幽默,諷刺,真實,虛幻,憧憬,釋懷,感觸,唏噓,昂揚"
+            },
+            'P5': { 
+                '思想議論': "價值,意義,態度,信念,理想,意志,勇氣,智慧,磨練,考驗,機遇,挑戰,趨勢,貢獻,傳統,革新,責任感,榮譽感,包容,和諧,正義,公理,邏輯,偏見,主觀,客觀,判斷,選擇,決定,實踐",
+                '常見成語一': "一心一意,自言自語,五顏六色,走馬看花,目瞪口呆,大公無私,力不從心,半途而廢,名列前茅,垂頭喪氣,胸有成竹,得意洋洋,破口大罵,悶悶不樂,視而不見,無影無蹤,萬眾一心,情不自禁,千變萬化,大海撈針",
+                '修辭手法': "比喻,擬人,排比,對比,誇張,反問,設問,疊字,對偶,借代,反語,引用,聯想,想像,象徵,反襯"
+            },
+            'P6': { 
+                '文學意境': "惆悵,眷戀,釋懷,沉鬱,慨嘆,欣慰,徬徨,羞赧,焦躁,淡泊,懷舊,身歷其境,感人至深,妙趣橫生,引人入勝,耐人尋味,扣人心弦,扣人心扉,如願以償,獲益匪淺",
+                '常見成語二': "不可思議,不勞而獲,心曠神怡,見義勇為,言行一致,刻苦耐勞,理直氣壯,落井下石,精益求精,語重心長,鍥而不捨,驚慌失措,舉一反三,隨機應變,實事求是,堅持不懈,赴湯蹈火,指鹿為馬",
+                '說明方法': "舉例子,打比方,列數字,下定義,分類別,作比較,摹狀貌,引資料,作詮釋"
+            },
+            'Exam': { 
+                '答題指令': "判斷,分析,解釋,列舉,歸納,比較,對照,選出,填寫,圈出,劃線,修正,補充,根據,引用,理由,原因,結果,影響,異同,特點,特徵,適當,錯誤,正確",
+                '寫作組件': "主旨,中心思想,段意,承上啟下,伏筆,呼應,性格,心情,描寫,感受,啟發,體會,寓意,開門見山,首尾呼應,卒章顯志,寓情於景"
+            }
         };
 
         const TOTAL_WORDS = Object.values(db).reduce((acc, grade) => acc + Object.values(grade).reduce((gAcc, words) => gAcc + words.split(',').length, 0), 0);
         let currentGrade = 'P1', currentGroup = '', activeWords = [], currentIndex = 0, isAutoPlaying = false, playInterval = null;
-        let masteredSet = new Set(JSON.parse(localStorage.getItem('HERO_DATA_PRO_V5') || "[]"));
+        let masteredSet = new Set(JSON.parse(localStorage.getItem('HERO_DATA_PRO_V5_1') || "[]"));
 
         function init() { switchGrade('P1'); updateStats(); }
 
@@ -190,7 +214,7 @@
             msg.lang = 'zh-HK'; window.speechSynthesis.speak(msg);
         }
 
-        function saveLocal() { localStorage.setItem('HERO_DATA_PRO_V5', JSON.stringify([...masteredSet])); }
+        function saveLocal() { localStorage.setItem('HERO_DATA_PRO_V5_1', JSON.stringify([...masteredSet])); }
 
         function openPreview() {
             const grid = document.getElementById('wordListGrid'); grid.innerHTML = '';
