@@ -3,79 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3112/3112946.png">
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3112/3112946.png">
-    <title>認字英雄傳 v5.6</title>
+    <title>認字英雄 v5.6 Lite</title>
     <style>
-        :root { --primary: #3d5a80; --bg: #f8f9fa; --accent: #ee6c4d; --pending: #e2cfea; --completed: #dee2e6; --correct: #2ecc71; --mic-active: #e74c3c; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: '微軟正黑體', sans-serif; }
-        body { background: var(--bg); padding: 10px; color: #293241; -webkit-tap-highlight-color: transparent; }
-        .container { max-width: 900px; margin: 0 auto; }
-        .header { text-align: center; margin-bottom: 8px; }
-        .total-stat { font-weight: bold; color: var(--accent); font-size: 1.1rem; }
-        .grade-nav { display: flex; width: 100%; gap: 3px; margin: 10px 0; }
-        .grade-btn { flex: 1; padding: 12px 0; border: 2px solid var(--primary); background: white; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.7rem; color: var(--primary); text-align: center; }
-        .grade-btn.active { background: var(--primary); color: white; }
-        .group-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 5px 0; margin-bottom: 12px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-        .group-tabs::-webkit-scrollbar { display: none; }
-        .tab-btn { padding: 10px 18px; border: none; border-radius: 15px; cursor: pointer; white-space: nowrap; font-weight: bold; font-size: 0.9rem; }
-        .tab-btn.pending { background: var(--pending); color: #5e548e; }
-        .tab-btn.completed { background: var(--completed); color: #6c757d; }
-        .tab-btn.active { background: var(--accent) !important; color: white !important; }
-        .flash-card { width: 100%; height: 40vh; background: white; border-radius: 35px; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; margin-bottom: 15px; border: 5px solid #fff; overflow: hidden; }
-        .word-display { font-size: clamp(2.5rem, 16vw, 7.5rem); font-weight: bold; color: #293241; text-align: center; padding: 15px; transition: color 0.3s ease; }
-        .word-display.correct { color: var(--correct); }
-        .btn-mastered { position: absolute; bottom: 25px; padding: 15px 45px; background: #4caf50; color: white; border: none; border-radius: 50px; font-weight: bold; font-size: 1.3rem; box-shadow: 0 6px 0 #2e7d32; cursor: pointer; }
-        .finish-overlay { position: absolute; width: 100%; height: 100%; background: rgba(255,255,255,0.96); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 10; border-radius: 35px; }
-        .control-panel { background: white; padding: 15px; border-radius: 25px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .btn-action { padding: 10px 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
-        .btn-mic { background: #3498db; color: white; font-size: 1.1rem; flex-grow: 1; min-width: 140px; }
-        .btn-mic.active { background: var(--mic-active); animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); } 100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); } }
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
-        .modal-content { background: white; margin: 10% auto; padding: 25px; border-radius: 25px; width: 90%; max-height: 80vh; overflow-y: auto; }
-        .word-list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 8px; margin-bottom: 20px; }
-        .word-item { padding: 8px; background: #f0f2f5; border-radius: 8px; text-align: center; font-size: 0.8rem; font-weight: bold; }
-        .word-item.learned { color: #ccc; text-decoration: line-through; }
-        .backup-btns { display: flex; gap: 5px; }
+        :root { --p: #3d5a80; --bg: #f8f9fa; --a: #ee6c4d; --ok: #2ecc71; --mic: #e74c3c; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: var(--bg); padding: 10px; text-align: center; }
+        .total-stat { color: var(--a); font-weight: bold; margin-bottom: 5px; }
+        .grade-nav { display: flex; gap: 2px; margin-bottom: 10px; }
+        .grade-btn { flex: 1; padding: 10px 0; border: 1px solid var(--p); background: #fff; border-radius: 8px; font-size: 0.7rem; cursor: pointer; }
+        .grade-btn.active { background: var(--p); color: #fff; }
+        .group-tabs { display: flex; gap: 5px; overflow-x: auto; padding: 5px; margin-bottom: 10px; }
+        .tab-btn { padding: 8px 15px; border-radius: 12px; border: none; white-space: nowrap; font-size: 0.8rem; }
+        .tab-btn.active { background: var(--a); color: #fff; }
+        .flash-card { width: 100%; height: 40vh; background: #fff; border-radius: 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative; margin-bottom: 10px; border: 4px solid #fff; }
+        .word-display { font-size: 5rem; font-weight: bold; transition: 0.3s; }
+        .word-display.ok { color: var(--ok); }
+        .btn-m { padding: 12px 30px; background: #4caf50; color: #fff; border: none; border-radius: 30px; font-weight: bold; font-size: 1.2rem; cursor: pointer; }
+        .ctrl { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; background: #fff; padding: 10px; border-radius: 20px; }
+        .btn { padding: 8px 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 0.8rem; cursor: pointer; color: #fff; }
+        .mic { background: #3498db; flex-grow: 1; font-size: 1rem; }
+        .mic.active { background: var(--mic); }
     </style>
 </head>
 <body>
-    <div id="wordModal" class="modal"><div class="modal-content"><h3 id="modalTitle" style="margin-bottom:15px;">🔍 預覽與管理</h3><div id="wordListGrid" class="word-list-grid"></div><div style="display:flex; gap:10px;"><button class="btn-action" style="flex:1; background:#e74c3c; color:white;" onclick="resetCurrentLevel()">🔄 重置本組</button><button class="btn-action" style="flex:1; background:var(--primary); color:white;" onclick="closeModal()">關閉</button></div></div></div>
-    <div class="container">
-        <div class="header"><h1>🏆 認字英雄傳</h1><div id="totalStat" class="total-stat">戰力：0 <span style="font-weight:normal; font-size:0.9rem; color:#7f8c8d;">(0%)</span></div></div>
-        <div class="grade-nav">
-            <button class="grade-btn" id="btn-P1" onclick="switchGrade('P1')">小一</button>
-            <button class="grade-btn" id="btn-P2" onclick="switchGrade('P2')">小二</button>
-            <button class="grade-btn" id="btn-P3" onclick="switchGrade('P3')">小三</button>
-            <button class="grade-btn" id="btn-P4" onclick="switchGrade('P4')">小四</button>
-            <button class="grade-btn" id="btn-P5" onclick="switchGrade('P5')">小五</button>
-            <button class="grade-btn" id="btn-P6" onclick="switchGrade('P6')">小六</button>
-            <button class="grade-btn" id="btn-Exam" onclick="switchGrade('Exam')">試題</button>
-        </div>
-        <div id="groupTabs" class="group-tabs"></div>
-        <div class="flash-card" id="cardArea">
-            <div class="finish-overlay" id="finishOverlay"><h2>🌟 Level Clear!</h2><button class="btn-action" style="background:var(--accent); color:white; margin-top:15px; padding:15px 30px;" onclick="resetCurrentLevel()">🔄 重戰本組</button></div>
-            <div class="word-display" id="wordDisplay">載入中...</div>
-            <button class="btn-mastered" id="masterBtn" onclick="markMastered()">✅ 我識啦！</button>
-        </div>
-        <div class="control-panel">
-            <div style="font-weight:bold; display:flex; align-items:center; gap:5px;">⏱️ <input type="number" id="speed" value="1.5" step="0.1" style="width:40px;">s</div>
-            <div class="backup-btns">
-                <button class="btn-action" style="background:#27ae60; color:white;" onclick="exportData()">📤 導出</button>
-                <button class="btn-action" style="background:#2980b9; color:white;" onclick="importData()">📥 導入</button>
-            </div>
-            <div style="display:flex; gap:5px; flex-grow:1; justify-content:flex-end;">
-                <button class="btn-action" style="background:#9b59b6; color:white;" onclick="openPreview()">清單</button>
-                <button class="btn-action" style="background:var(--primary); color:white;" id="playBtn" onclick="toggleAutoPlay()">▶ 自動</button>
-                <button class="btn-action btn-mic" id="micBtn" ontouchstart="startSpeech()" ontouchend="stopSpeech()" onmousedown="startSpeech()" onmouseup="stopSpeech()">🎤 按住認讀</button>
-            </div>
-        </div>
-        <div id="speechFeedback" style="text-align:center; margin-top:10px; font-weight:bold; color:var(--primary); min-height:20px; font-size:0.9rem;"></div>
+    <div class="total-stat" id="stat">戰力：0 (0%)</div>
+    <div class="grade-nav" id="gNav"></div>
+    <div class="group-tabs" id="tabs"></div>
+    <div class="flash-card">
+        <div id="word" class="word-display">載入中</div>
+        <button class="btn-m" onclick="mark()">✅ 我識啦</button>
     </div>
+    <div class="ctrl">
+        <div style="font-size:0.8rem">⏱️<input type="number" id="spd" value="1.5" step="0.1" style="width:35px">s</div>
+        <button class="btn" style="background:#27ae60" onclick="exp()">📤 導出</button>
+        <button class="btn" style="background:#2980b9" onclick="imp()">📥 導入</button>
+        <button class="btn" style="background:#9b59b6" onclick="toggleP()">▶ 自動</button>
+        <button class="btn mic" id="mBtn" ontouchstart="startS()" ontouchend="stopS()">🎤 按住認讀</button>
+    </div>
+    <div id="feed" style="margin-top:10px; font-size:0.8rem; font-weight:bold"></div>
 
     <script>
-        const db = {
+     const db = {
             'P1': { '數字方位': "一,二,三,四,五,六,七,八,九,十,百,千,萬,上,下,左,右,中,前,後,大,小,多,少", '自然天文': "天,地,日,月,星,雲,風,雨,雷,電,山,水,火,土,石,田,木,禾,竹,草,花,葉", '身體部位': "人,頭,目,口,手,足,耳,舌,牙,毛,皮,心,眉,鼻,臉,身,背,腹,指,腳", '家人稱呼': "爸爸,媽媽,哥哥,姐姐,弟弟,妹妹,爺爺,奶奶,外公,外婆,伯父,叔叔,阿姨,姑媽", '校園生活': "老師,同學,朋友,學校,課室,操場,遊戲,唱歌,跳舞,畫畫,讀書,寫字,聽講,發問,書包", '常用動作': "看,聽,說,話,笑,哭,叫,跑,跳,爬,拿,放,給,取,找,用,做,玩,睡,洗,坐,立,走", '動物世界': "貓,狗,雞,鴨,魚,鳥,馬,牛,羊,豬,兔,大象,獅子,老虎,猴子,烏龜,螞蟻" },
             'P2': { '健康生活': "習慣,良好,健康,強壯,精神,飲食,保持,預防,準時,整潔,守禮,誠實,勤奮,責任,按時,睡覺,早起,刷牙,洗臉,運動,營養,偏食,零食,衛生,收拾,整齊,自動自覺,勉強,蔬菜,水果,固定,作息,充足,休息,均衡", '校園學習': "操場,禮堂,圖書館,集會,比賽,表演,練習,整理,借書,歸還,規則,互相,合作,禮讓,獎勵,校服,領帶,校徽,筆盒,膠水,剪刀,顏色筆,釘書機,尺子,筆記簿,處罰,專心,認真,思考,發問,答案,舉手,遲到,缺席", '自然觀察': "螢火蟲,黃褐色,尾部,光芒,閃亮,漆黑,欣賞,觸角,翅膀,外殼,草叢,迷路,躲藏,蝴蝶,蜻蜓,螞蟻,蜜蜂,蜘蛛,蝸牛,青蛙,池塘,荷葉,泥土,清新,芬芳,採蜜,閃爍,溫暖,潮濕,繁殖,產卵,幼蟲,變化,神奇,觀察", '社區設施': "街道,熱鬧,商店,馬路,天橋,公園,圖書館,診所,車站,郵局,銀行,街市,超市,餐廳,麵包店,理髮店,醫院,警察局,消防局,遊樂場,住宅,高樓,鄰居,保安員,電梯,自動電梯,噴水池,花槽,走廊,大門,圍欄,社區,繁忙", '交通安全': "巴士,地鐵,渡輪,飛機,火車,電車,私家車,貨車,小巴,救護車,警察車,單車,的士,站牌,碼頭,機場,鐵軌,馬路,紅綠燈,斑馬線,安全,司機,乘客,座位,扶手,車廂,隧道,超速,碰撞,遵守,注意,標誌,行人,路口", '天氣季節': "陽光,空氣,溫暖,季節,春天,夏天,秋天,冬天,潮濕,乾燥,炎熱,寒冷,刮風,下雨,閃電,結冰,積雪,霧氣,彩虹,雷暴,暴雨,天文台,預報,氣溫,涼快,悶熱,結霜,變化,露水,微風,強烈,氣候,涼爽,播種,收穫", '飲食美味': "早餐,午餐,晚餐,點心,水果,蔬菜,美味,營養,飽足,口渴,甜味,酸味,苦味,辣味,麵包,雞團,牛奶,米飯,麵條,稀飯,肉類,海鮮,湯水,果汁,甜品,飽滿,香脆,熱騰騰,冰涼,味道,調味,餐具,服務,結帳,浪費,珍惜" },
             'P3': { '情緒心態': "興奮,難過,焦急,驚奇,懷疑,驕傲,慚愧,慶幸,盼望,思念,感動,委屈,憤怒,平靜,得意,害怕,擔憂,滿意,後悔,驚訝,傷心,愉快,煩惱,痛快,焦慮,親切,溫柔,憤恨,遺憾,痛心,失望,絕望,振奮,驚慌,害羞,寬慰", '描寫感官': "繁華,寧靜,壯觀,朦朧,翠綠,茂盛,凋謝,清脆,寬闊,狹窄,陡峭,崎嶇,清澈,湛藍,五光十色,柔軟,堅硬,粗糙,平滑,細緻,鮮艷,灰暗,透明,沉重,輕巧,濃郁,清淡,刺耳,芬芳,冰冷,滾燙,倒影,環繞,延綿,遼闊", '故事敘述': "從前,神奇,魔幻,仙女,城堡,森林,怪物,變幻,願望,善良,邪惡,報答,誠實,結果,後來,突然,竟然,果然,最後,經歷,解決,希望,夢想,道理,困難,容易,珍惜,浪費,保護,破壞,重要,特別,發現,觀察,試驗,結局,遭遇", '地理動作': "高山,深谷,河流,海洋,平原,島嶼,沙漠,瀑布,泉水,港口,沙灘,懸崖,叢林,溪流,湖泊,山脈,盆地,丘陵,濕地,旋轉,搖晃,跳動,擺動,滑行,飛翔,降落,漂浮,沉沒,燃燒,爆炸,分裂,結合,掩護,進攻,防守,追逐" },
@@ -85,162 +53,79 @@
             'Exam': { '通用指令': "判斷,分析,解釋,列舉,歸納,比較,對照,選出,填寫,圈出,劃線,修正,補充,根據,引用,理由,原因,結果,影響,異同,特點,特徵,適當,錯誤,正確,正確答案,下列,以上,未必,必定,可能,顯示,反映,關鍵", '中文閱卷': "主旨,中心思想,段意,承上啟下,伏筆,呼應,性格,心情,描寫,感受,啟發,體會,寓意,比喻,本體,喻體,擬人,排比,對比,誇張,反問,設問,疊字,對偶,感官,視覺,聽覺,嗅覺", '數常邏輯': "相差,共,餘下,平分,平均,原本,現有,倍數,一半,增加,減少,求,計算,驗算,列式,橫式,直式,單位,估算,實驗,觀察,記錄,結論,公平,變量,假設,功能,構造,演變,趨勢,資料,圖表,比例,分配,資源,環保,責任,權利,義務", '高階手法': "借代,反襯,雙關,層遞,頂真,聯想,想像,象徵,反語,開門見山,卒章顯志,寓情於景,借景抒情,托物言志,先抑後揚,側面描寫,行動描寫,心理描寫" }
         };
 
-        const STORAGE_KEY = 'HERO_DATA_V5_6';
-        const TOTAL_WORDS = Object.values(db).reduce((acc, g) => acc + Object.values(g).reduce((ga, w) => ga + w.split(',').length, 0), 0);
-        let currentGrade = 'P2', currentGroup = '', activeWords = [], currentIndex = 0, isAutoPlaying = false, playInterval = null;
-        let masteredSet = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"));
-        let recognition, isListening = false;
+        let curG = 'P2', curGrp = '', words = [], idx = 0, isP = false, timer, rec;
+        let learned = new Set(JSON.parse(localStorage.getItem('HERO_V5') || "[]"));
 
-        function init() { switchGrade('P2'); updateStats(); setupSpeechRecognition(); }
-
-        function setupSpeechRecognition() {
-            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.lang = 'zh-HK'; recognition.continuous = false; recognition.interimResults = false; recognition.maxAlternatives = 1; 
-                recognition.onresult = (e) => {
-                    const data = e.results[0][0], text = data.transcript.trim().replace(/[，。？！、\s]/g, ''), conf = data.confidence;
-                    const target = activeWords[currentIndex];
-                    document.getElementById('speechFeedback').innerText = `聽到：${text} (信心: ${Math.round(conf*100)}%)`;
-                    if (text === target && conf > 0.85) feedbackCorrect();
-                    else { feedbackWrong(); if(text===target) document.getElementById('speechFeedback').innerText += " - 讀音唔清，試多張！"; }
-                };
-                recognition.onerror = () => { isListening = false; document.getElementById('micBtn').classList.remove('active'); };
-                recognition.onend = () => { isListening = false; document.getElementById('micBtn').classList.remove('active'); };
-            } else { document.getElementById('micBtn').style.display = 'none'; }
-        }
-
-        function startSpeech() {
-            if (activeWords.length === 0 || isAutoPlaying || isListening) return;
-            isListening = true; document.getElementById('micBtn').classList.add('active');
-            document.getElementById('wordDisplay').classList.remove('correct');
-            try { recognition.start(); } catch(e) {}
-        }
-        function stopSpeech() { if (isListening) recognition.stop(); }
-
-        function feedbackCorrect() {
-            document.getElementById('speechFeedback').style.color = "var(--correct)";
-            document.getElementById('wordDisplay').classList.add('correct');
-            playSnd(880, 0.15); setTimeout(() => { document.getElementById('wordDisplay').classList.remove('correct'); markMastered(); }, 800);
-        }
-        function feedbackWrong() { document.getElementById('speechFeedback').style.color = "var(--accent)"; playSnd(220, 0.2); }
-        function playSnd(f, d) {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator(); const g = ctx.createGain();
-            osc.connect(g); g.connect(ctx.destination);
-            osc.type = 'sine'; osc.frequency.setValueAtTime(f, ctx.currentTime);
-            g.gain.setValueAtTime(0.1, ctx.currentTime); osc.start(); osc.stop(ctx.currentTime + d);
-        }
-
-        function switchGrade(grade) {
-            currentGrade = grade; document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(`btn-${grade}`).classList.add('active');
-            currentGroup = Object.keys(db[grade])[0]; renderTabs(); loadGroup();
-        }
-
-        function renderTabs() {
-            const container = document.getElementById('groupTabs'); container.innerHTML = '';
-            Object.keys(db[currentGrade]).forEach(group => {
-                const words = db[currentGrade][group].split(','), rem = words.filter(w => !masteredSet.has(w)).length;
-                const btn = document.createElement('button');
-                btn.className = `tab-btn ${rem === 0 ? 'completed' : 'pending'} ${group === currentGroup ? 'active' : ''}`;
-                btn.innerText = group; btn.onclick = () => { currentGroup = group; renderTabs(); loadGroup(); };
-                container.appendChild(btn);
+        function init() {
+            const nav = document.getElementById('gNav');
+            Object.keys(db).forEach(g => {
+                const b = document.createElement('button'); b.className = 'grade-btn'; b.innerText = g; b.id = 'g'+g;
+                b.onclick = () => { curG = g; Array.from(nav.children).forEach(x=>x.classList.remove('active')); b.classList.add('active'); curGrp = Object.keys(db[g])[0]; load(); };
+                nav.appendChild(b);
             });
+            document.getElementById('gP2').click(); setupRec();
         }
 
-        function loadGroup() {
-            activeWords = db[currentGrade][currentGroup].split(',').filter(w => !masteredSet.has(w));
-            currentIndex = 0;
-            if (activeWords.length === 0) {
-                document.getElementById('finishOverlay').style.display = 'flex';
-                document.getElementById('wordDisplay').innerText = "";
-                document.getElementById('masterBtn').style.display = 'none';
-                if(isAutoPlaying) toggleAutoPlay();
-            } else {
-                document.getElementById('finishOverlay').style.display = 'none';
-                document.getElementById('masterBtn').style.display = 'block'; displayWord();
-            }
+        function load() {
+            const ts = document.getElementById('tabs'); ts.innerHTML = '';
+            Object.keys(db[curG]).forEach(gp => {
+                const b = document.createElement('button'); b.className = `tab-btn ${gp===curGrp?'active':''}`; b.innerText = gp;
+                b.onclick = () => { curGrp = gp; load(); }; ts.appendChild(b);
+            });
+            words = db[curG][curGrp].split(',').filter(w => !learned.has(w));
+            idx = 0; show(); updateS();
         }
 
-        function displayWord() {
-            if (activeWords.length > 0) {
-                document.getElementById('wordDisplay').innerText = activeWords[currentIndex];
-                if (isAutoPlaying) speak(activeWords[currentIndex]);
-                document.getElementById('speechFeedback').innerText = "";
-            }
+        function show() {
+            const d = document.getElementById('word');
+            if (words.length > 0) { d.innerText = words[idx]; if(isP) speak(words[idx]); }
+            else { d.innerText = "完！"; if(isP) toggleP(); }
+            document.getElementById('feed').innerText = "";
         }
 
-        function markMastered() {
-            if (!activeWords[currentIndex]) return;
-            masteredSet.add(activeWords[currentIndex]); saveLocal(); renderTabs(); loadGroup(); updateStats();
+        function mark() { if(!words[idx]) return; learned.add(words[idx]); localStorage.setItem('HERO_V5', JSON.stringify([...learned])); load(); }
+
+        function updateS() {
+            let total = 0; Object.values(db).forEach(g => Object.values(g).forEach(w => total += w.split(',').length));
+            document.getElementById('stat').innerText = `戰力：${learned.size} (${Math.round(learned.size/total*100)}%)`;
         }
 
-        function updateStats() {
-            const count = masteredSet.size; const per = Math.round((count / TOTAL_WORDS) * 100);
-            document.getElementById('totalStat').innerHTML = `戰力：${count} <span style="font-weight:normal; font-size:0.8rem;">(${per}%)</span>`;
-        }
-
-        function toggleAutoPlay() {
-            if (isAutoPlaying) { isAutoPlaying = false; clearInterval(playInterval); document.getElementById('playBtn').innerText = "▶ 自動"; }
-            else {
-                if (activeWords.length === 0) return;
-                isAutoPlaying = true; document.getElementById('playBtn').innerText = "⏸ 暫停";
-                playInterval = setInterval(() => {
-                    if (activeWords.length > 0) { currentIndex = (currentIndex + 1) % activeWords.length; displayWord(); }
-                    else toggleAutoPlay();
-                }, parseFloat(document.getElementById('speed').value) * 1000);
-                displayWord();
-            }
+        function toggleP() {
+            isP = !isP; document.getElementById('word').innerText = isP ? words[idx] : document.getElementById('word').innerText;
+            if(isP) timer = setInterval(() => { idx = (idx+1)%words.length; show(); }, document.getElementById('spd').value*1000);
+            else clearInterval(timer);
         }
 
         function speak(t) { window.speechSynthesis.cancel(); const m = new SpeechSynthesisUtterance(t); m.lang = 'zh-HK'; window.speechSynthesis.speak(m); }
-        function saveLocal() { localStorage.setItem(STORAGE_KEY, JSON.stringify([...masteredSet])); }
 
-        // Export/Import 功能
-        function exportData() {
-            const data = JSON.stringify([...masteredSet]);
-            const blob = new Blob([data], {type: 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a'); a.href = url; a.download = `hero_progress_${new Date().toISOString().slice(0,10)}.json`;
-            a.click();
-        }
-
-        function importData() {
-            const input = document.createElement('input'); input.type = 'file';
-            input.onchange = e => {
-                const file = e.target.files[0]; const reader = new FileReader();
-                reader.onload = event => {
-                    try {
-                        const imported = JSON.parse(event.target.result);
-                        if (Array.isArray(imported)) {
-                            if(confirm(`將導入 ${imported.length} 個已學會字詞，覆蓋現有進度嗎？`)) {
-                                masteredSet = new Set(imported); saveLocal(); location.reload();
-                            }
-                        }
-                    } catch(err) { alert('檔案格式不正確'); }
-                };
-                reader.readAsText(file);
+        function setupRec() {
+            if (!('webkitSpeechRecognition' in window)) return;
+            rec = new webkitSpeechRecognition(); rec.lang = 'zh-HK'; rec.onresult = (e) => {
+                const res = e.results[0][0], t = res.transcript.trim().replace(/\s/g,''), conf = res.confidence;
+                document.getElementById('feed').innerText = `聽：${t} (${Math.round(conf*100)}%)`;
+                if (t === words[idx] && conf > 0.85) { document.getElementById('word').classList.add('ok'); setTimeout(()=>{document.getElementById('word').classList.remove('ok'); mark();}, 800); }
             };
-            input.click();
+            const b = document.getElementById('mBtn'); rec.onstart = () => b.classList.add('active'); rec.onend = () => b.classList.remove('active');
         }
+        function startS() { try{rec.start();}catch(e){} }
+        function stopS() { rec.stop(); }
 
-        function resetCurrentLevel() {
-            if (confirm("重置本組進度？")) {
-                db[currentGrade][currentGroup].split(',').forEach(w => masteredSet.delete(w));
-                saveLocal(); renderTabs(); loadGroup(); updateStats(); closeModal();
+        // 文字版 Export/Import
+        function exp() {
+            const code = btoa(JSON.stringify([...learned])); // 用 Base64 縮短代碼
+            prompt("請複製以下戰力代碼：", code);
+        }
+        function imp() {
+            const code = prompt("請貼上戰力代碼：");
+            if (code) {
+                try {
+                    learned = new Set(JSON.parse(atob(code)));
+                    localStorage.setItem('HERO_V5', JSON.stringify([...learned]));
+                    location.reload();
+                } catch(e) { alert("代碼無效！"); }
             }
         }
-        function openPreview() {
-            const grid = document.getElementById('wordListGrid'); grid.innerHTML = '';
-            db[currentGrade][currentGroup].split(',').forEach(w => {
-                const item = document.createElement('div'); item.className = `word-item ${masteredSet.has(w) ? 'learned' : ''}`;
-                item.innerText = w; grid.appendChild(item);
-            });
-            document.getElementById('modalTitle').innerText = `預覽：${currentGroup}`;
-            document.getElementById('wordModal').style.display = "block";
-        }
-        function closeModal() { document.getElementById('wordModal').style.display = "none"; }
+
         init();
     </script>
 </body>
